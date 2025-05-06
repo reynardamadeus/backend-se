@@ -20,4 +20,6 @@ class LessonMaterialController extends Controller
                 ],500);
         }
     }
+
+    public function create(){}
 }
