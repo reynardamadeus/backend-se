@@ -6,38 +6,28 @@ use App\Http\Requests\MaterialRequest;
 use App\Models\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class MaterialController extends Controller
 {
     public function get(){
-        try{
-        $material = Material::paginate(5);
-        return response()->json([
-            'data' => $material
-        ], 200);
-        }catch(\Exception $e){
-            return response()->json([
-                    "message" => "internal server error",
-                    "errors" => $e->getMessage()
-                ],500);
-        }
+        $material = Material::all();
+        return view('welcome', compact('material'));
     }
 
-    public function create(MaterialRequest $request){
-        try{
-        $validated = $request->validated();
-        $filePath = $request->file('image')->storeAs('materials/', $request->name , 'public');
-        $validated['image'] = $filePath;
-        Material::create($validated);
-        return response()->json([
-            'message' => 'New material has been added'
-        ], 201);
-        }catch(\Exception $e){
-            return response()->json([
-                    "message" => "internal server error",
-                    "errors" => $e->getMessage()
-                ],500);
-        }
+    public function create(Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'class' => 'required',
+            'image' => 'required|image|max:5120'
+        ]);
+        $filePath = $request->file('image')->storeAs('materials/', $request->name . '.' .$request->file('image')->getClientOriginalExtension() , 'public');
+        Material::create([
+            'name' => $request->name,
+            'class' => $request->class,
+            'image' => $filePath
+        ]);
+        return redirect()->back();
     }
 
     public function  update(MaterialRequest $request, $id){

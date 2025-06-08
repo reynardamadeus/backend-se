@@ -1,0 +1,278 @@
+.Dashboard {
+    background: linear-gradient(to bottom, #ffffff, #ffffff);
+}
+
+.header2 {
+    background-color: #72C5E0 !important;
+    position: absolute;
+    width: 100%;
+    height: 99px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    content: url('logo ruang murid.png');
+    width: 102px;
+    height: 78px;
+}
+
+
+.bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #72C5E0 !important;
+    height: 60px;
+    margin-top: 50px;
+}
+
+
+.log_in:active {
+    background: #64bede;
+}
+
+.sign_up:active {
+    background: #e9d83c;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background: rgba(217, 217, 217, 0.25);
+    box-shadow: 0.5px 1px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 5px;
+    width: 100%;
+    max-width: 350px;
+    margin-left: 600px;
+    position: relative;
+    left: 35px;
+
+}
+
+.search-container input {
+    border: none;
+    outline: none;
+    padding: 8px;
+    width: 100%;
+    border-radius: 20px;
+    background: transparent;
+    text-align: center;
+
+}
+
+.search-container img {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+@media (max-width: 768px) {
+
+    .header2,
+    .bottom {
+        height: 50px;
+    }
+
+    .logo {
+        width: 80px;
+        height: 60px;
+    }
+
+    .log_in,
+    .sign_up {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .header2,
+    .bottom {
+        height: 40px;
+    }
+
+    .logo {
+        width: 60px;
+        height: 45px;
+    }
+
+    .log_in,
+    .sign_up {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
+
+/* popup */
+.form_popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.form_popup.active {
+    display: flex;
+}
+
+#level {
+    min-width: 250px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.login-container,
+.signup-container {
+    background-image: linear-gradient(#72C5E0, white, #72C5E0, white, #72C5E0);
+    padding: 60px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    width: 500px;
+    font-size: 15px;
+}
+
+#iconPelSD,
+#iconPelSMP,
+#iconPelSMA {
+    display: none;
+}
+
+.emailInput,
+.passwordInput {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border-radius: 10px;
+}
+
+.forgot-password {
+    display: flex;
+    margin-top: 5px;
+    margin-left: auto;
+    padding: 0%;
+    font-size: 14px;
+    color: #2d89ef;
+    text-decoration: none;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.sign_in {
+    font-size: 20px;
+    background-color: #317289;
+    text-align: center;
+}
+
+.sign_in:active {
+    background: #64bede;
+}
+
+.signup_Form {
+    font-size: 20px;
+    background-color: #317289;
+    text-align: center;
+    margin-top: 20px;
+
+}
+
+.signup_Form:active {
+    background: #64bede;
+}
+
+.createAcc a {
+    color: #317289;
+}
+
+.inputForm {
+    width: 100%;
+    height: 62px;
+    padding: 10px;
+    margin: 5px 0;
+    margin-left: -14px;
+    border: 2px solid #ccc;
+    border-radius: 11px;
+    background-color: white;
+
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.subjectBtn:active {
+    background-color: #317289;
+}
+
+
+.custom-radio {
+    display: none;
+    /* Hide the default radio */
+}
+
+.custom-label {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    border-radius: 12px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.custom-label:hover {
+    background-color: #e5e5e5;
+}
+
+/* Change background when selected */
+.custom-radio:checked+.custom-label {
+    background-color: #007bff;
+    color: white;
+}
+
+.usericon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.userBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.userBtn img {
+    width: 40px;
+    height: 40px;
+    margin-top: 8px;
+    margin-left: 50px;
+    transition: opacity 0.3s ease;
+}
+.userBtn p {
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+.userBtn:active img {
+    opacity: 0.6;
+}
