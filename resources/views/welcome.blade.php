@@ -49,7 +49,7 @@
 
     <div class="flex items-center justify-center bg-gray-100 flex-col"> <!--Deskripsi Belajar-->
         <p class="text-lg font-bold text-black font-Trispace ml-7 text-[24px] mt-8 ">Mau belajar apa hari ini?</p>
-        <div class="subjectContainer flex justify-items-start gap-8 text-center mt-5 bg-[#78B2C7] rounded-3xl w-3/4 h-80 items-start ml-7 p-6">
+        <div class="subjectContainer flex justify-items-start gap-8 text-center mt-5 bg-[#78B2C7] rounded-3xl w-3/4 h-80 items-start ml-7 p-10">
             @forelse ($material as $m)
             <button class="subjectBtn  flex flex-col items-center">
                 <img src="{{asset('storage/'.$m->image)}}" alt="Mathematics" class="w-24 h-24">
@@ -58,12 +58,12 @@
             @empty
                 <p class="text-center text-gray-500 mt-4">No materials found.</p>
             @endforelse
-            {{-- @if(Auth::user()->role == "Admin") --}}
+            @if(Auth::user()->role == "Admin")
             <button class="subjectBtn flex flex-col items-center" onclick="openMaterialAdd()">
                 <img src="{{asset('images/plus.svg')}}" class="w-24" alt="">
                 <p class="mt-2 text-sm font-semibold">Add Material</p>
             </button>
-            {{-- @endif --}}
+            @endif
         </div>
     </div>
 <x-footer />

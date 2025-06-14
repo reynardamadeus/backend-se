@@ -60,18 +60,34 @@ class UserController extends Controller
     }
 
     public function logout(Request $request){
-        try{
-        $request->user()->currentAccessToken()->delete();
-        return response()->json([
-            'message' => 'Account has logged out!'
-        ], 200);
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('homepage');
+    }
 
-        }catch(\Exception $e){
-            return response()->json([
-                    "message" => "internal server error",
-                    "errors" => $e->getMessage()
-                ],500);
+    public function getUserProfile(){
+        $user = Auth::user();
+        return view('profile', compact('user'));
+    }
+
+    public function updateProfile(Request $request){
+        $request->validate([
+            "first_name" => "required",
+            "last_name" => "required",
+            "password" => "nullable|confirmed|string|min:8"
+        ]);
+        $user = Auth::user();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
         }
+
+        $user->save();
+
+        return redirect()->route('user.profile');
     }
 
 }

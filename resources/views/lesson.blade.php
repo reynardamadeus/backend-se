@@ -17,18 +17,7 @@
     
 
     <div class="bg-sky-300 w-full h-24 flex items-center justify-center"><!--batas header-->
-        <div class="flex items-center bg-sky-300 p-3 rounded-md w-fit mr-18">
-            <label for="level" class="text-black text-lg font-medium mr-2">Select Level:</label>
-            <div class="relative">
-                <button id="level"
-                    class="appearance-none bg-sky-200 text-black text-lg font-medium px-2 py-2 rounded-lg pr-20 cursor-pointer"
-                    onclick="openClassSelection()">
-                    Select your level
-                </button>
-                <!-- Ikon dropdown -->
-                <span class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">▼</span>
-            </div>
-        </div>
+   
 
         <x-select-class-popup />
         <!-- Selection SD -->

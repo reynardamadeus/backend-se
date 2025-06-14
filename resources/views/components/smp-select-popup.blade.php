@@ -2,6 +2,7 @@
     <div class="bg-white/50 backdrop-blur-lg p-8 rounded-xl shadow-lg w-96 text-center">
         <button type="button" class="close-btn" onclick="closeClassSelectionSMP()">&times;</button>
         <h3 class="text-xl font-bold text-black mb-6">Select Kelas</h3>
+        <form action="" method="post">
         <div class="space-y-4">
             <label class="block mb-4">
                 <input type="radio" name="kelas" value="SMP - Kelas 1" class="custom-radio w-full py-3 bg-white text-black font-bold rounded-xl 
@@ -19,6 +20,7 @@
                 <span class="custom-label">Kelas 3</span>
             </label>
         </div>
+        </form>
         <div class="flex justify-between mt-6">
             <button class="w-24 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-md hover:bg-blue-700"
                 onclick="closeClassSelectionSMP(),openClassSelection()">Back</button>

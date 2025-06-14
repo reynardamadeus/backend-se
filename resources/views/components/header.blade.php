@@ -2,10 +2,12 @@
     <img class="w-24 h-16" src="{{asset('images/logo_ruang_murid.png')}}" alt="Logo">
     <nav>
         <div class="bar-fitur flex items-left justify-around bg-white-100 py-3 px-5"> <!--pick header-->
-            <div
-                class="menu-item flex items-center gap-2 text-lg font-medium text-black cursor-pointer hover:text-blue-500 tracking-wide px-4">
-                Tutorials <span class="text-sm">▼</span>
-            </div>
+            <a href="{{route('homepage')}}">
+                <div
+                    class="menu-item flex items-center gap-2 text-lg font-medium text-black cursor-pointer hover:text-blue-500 tracking-wide px-4">
+                    Tutorials <span class="text-sm">▼</span>
+                </div>
+            </a>
             <div
                 class="menu-item flex items-center gap-2 text-lg font-medium text-black cursor-pointer hover:text-blue-500 tracking-wide px-4">
                 Exercise <span class="text-sm">▼</span>

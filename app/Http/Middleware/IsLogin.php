@@ -5,8 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-class isAdmin
+use Illuminate\Support\Facades\Auth;
+class IsLogin
 {
     /**
      * Handle an incoming request.
@@ -15,8 +15,7 @@ class isAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = $request->user();
-        if($user->role == 'Admin'){
+        if(Auth::check()){
             return $next($request);
         }
         return redirect()->route('homepage');
