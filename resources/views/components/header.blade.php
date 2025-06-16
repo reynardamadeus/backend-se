@@ -8,10 +8,12 @@
                     Tutorials <span class="text-sm">▼</span>
                 </div>
             </a>
+            <a href="{{route('exercise.homepage')}}">
             <div
                 class="menu-item flex items-center gap-2 text-lg font-medium text-black cursor-pointer hover:text-blue-500 tracking-wide px-4">
                 Exercise <span class="text-sm">▼</span>
             </div>
+            </a>
             <div
                 class="menu-item flex items-center gap-2 text-lg font-medium text-black cursor-pointer hover:text-blue-500 tracking-wide px-4">
                 Certificate <span class="text-sm">▼</span>

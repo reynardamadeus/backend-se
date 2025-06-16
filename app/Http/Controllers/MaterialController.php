@@ -10,9 +10,34 @@ use Illuminate\Support\Facades\Validator;
 
 class MaterialController extends Controller
 {
-    public function get(){
-        $material = Material::all();
+    public function materialHomepage(){
+        $material = [] ;
         return view('welcome', compact('material'));
+    }
+
+    public function exerciseHomepage(){
+        $material = Material::where('class', 'SMA - Kelas 3')->get() ;
+        return view('exercisehome', compact('material'));
+    }
+
+    public function filter(Request $request){
+        $material = [];
+        if($request->has('kelas')){
+            $material = Material::where('class', $request->kelas)->get();
+        }else{
+            redirect()->route('homepage');
+        }
+        return view('welcome', compact('material'));
+    }
+
+    public function filterFromExercise(Request $request){
+        $material = [];
+        if($request->has('kelas')){
+            $material = Material::where('class', $request->kelas)->get();
+        }else{
+            redirect()->route('homepage');
+        }
+        return view('exercisehome', compact('material'));
     }
 
     public function create(Request $request){
@@ -27,14 +52,15 @@ class MaterialController extends Controller
             'class' => $request->class,
             'image' => $filePath
         ]);
-        return redirect()->back();
+         $material = Material::where('class', $request->class)->get();
+        return view('welcome', compact('material'));
     }
 
-    public function  update(MaterialRequest $request, $id){
+    public function  update(Request $request, $id){
         try{
             $validated = $request->validated();
             $material = Material::findorFail($id);
-            
+
             Storage::disk('public')->delete($material->image);
             $filePath = $request->file('image')->storeAs('materials/', $request->name , 'public');
             $validated['image'] = $filePath;

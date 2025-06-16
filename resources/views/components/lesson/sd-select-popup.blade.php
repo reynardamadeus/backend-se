@@ -2,6 +2,8 @@
     <div class="bg-white/50 backdrop-blur-lg p-8 rounded-xl shadow-lg w-96 text-center">
         <button type="button" class="close-btn" onclick="closeClassSelectionSD()">&times;</button>
         <h2 class="text-xl font-bold text-black mb-6">Select Kelas</h2>
+        <form action="{{route('material.filter')}}" method="post">
+            @csrf
         <div class="grid grid-cols-2 gap-4">
             <label>
                 <input type="radio" name="kelas" value="SD - Kelas 1" class="custom-radio"
@@ -35,10 +37,11 @@
             </label>
         </div>
         <div class="flex justify-between mt-6">
-            <button class="w-24 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-md hover:bg-blue-700"
+            <button class="w-24 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-md hover:bg-blue-700 cursor-pointer"
                 onclick="closeClassSelectionSD(),openClassSelection()">Back</button>
-            <button class="w-24 py-3 bg-gray-800 text-white font-bold rounded-xl shadow-md hover:bg-gray-900"
-                onclick="closeClassSelectionSD()">Save</button>
+            <button class="w-24 py-3 bg-gray-800 text-white font-bold rounded-xl shadow-md hover:bg-gray-900 cursor-pointer"
+                onclick="closeClassSelectionSD()" type="submit">Save</button>
         </div>
+        </form>
     </div>
 </div>

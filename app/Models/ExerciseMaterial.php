@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-class LessonMaterial extends Model
+class ExerciseMaterial extends Model
 {
     protected $fillable = ['chapter', 'chapter_number', 'content', 'video', 'material_id', 'isExercise'];
 
@@ -13,4 +13,3 @@ class LessonMaterial extends Model
         return $this->belongsTo(Material::class);
     }
 }
-

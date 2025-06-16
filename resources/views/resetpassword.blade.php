@@ -9,6 +9,6 @@
 </head>
 <body>
     <p>You have requested to reset your account's password</p>
-    <a href="{{$data['url']}}">Click here to reset password</a>
+    <a href="{{$resetUrl}}">Click here to reset password</a>
 </body>
 </html>

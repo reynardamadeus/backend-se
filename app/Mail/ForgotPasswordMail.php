@@ -16,9 +16,11 @@ class ForgotPasswordMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+
+    public string $resetUrl;
+    public function __construct(string $resetUrl)
     {
-        //
+        $this->resetUrl = $resetUrl;
     }
 
     /**
@@ -39,6 +41,9 @@ class ForgotPasswordMail extends Mailable
     {
         return new Content(
             view: 'resetpassword',
+            with: [
+                'resetUrl' => $this->resetUrl
+            ],
         );
     }
 

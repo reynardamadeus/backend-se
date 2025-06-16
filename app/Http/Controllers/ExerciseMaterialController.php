@@ -2,23 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ExerciseMaterial;
 use App\Models\LessonMaterial;
 use App\Models\Material;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 use function PHPUnit\Framework\isEmpty;
 
-class LessonMaterialController extends Controller
+class ExerciseMaterialController extends Controller
 {
     public function get($id){
         $materials = Material::find($id);
         if (!$materials) {
             return redirect()->back()->with('error', 'Material tidak ditemukan.');
         }
-        $lessons = $materials->lessons()->orderBy('chapter_number')->get();
-        return view('lesson.lesson', compact('lessons', 'materials'));
+        $exercises = $materials->exercises()->orderBy('chapter_number')->get();
+        return view('exercise.exercise', compact('exercises', 'materials'));
+    }
+
+    public function getInsertContentForm($id){
+        return view('exercise.insertExercise', compact('id'));
     }
 
     public function createSubject(Request $request, $id){
@@ -30,43 +34,39 @@ class LessonMaterialController extends Controller
         if (!$materials) {
             return redirect()->back()->with('error', 'Material tidak ditemukan.');
         }
-        $latest_chapter = $materials->lessons()->latest()->first();
+        $latest_chapter = $materials->exercises()->latest()->first();
         $chapter_number = ($latest_chapter?->chapter_number ?? 0) + 1;
 
         preg_match('/(?:v=|\/)([0-9A-Za-z_-]{11})/', $request->video, $matches);
         $videoId = $matches[1] ?? null;
         $videoId = "https://www.youtube.com/embed/".$videoId;
-        $materials->lessons()->create([
+        $materials->exercises()->create([
             'chapter_number' => $chapter_number,
             'chapter' => $request->chapter,
             'video' => $videoId,
         ]);
-        return redirect()->route('lesson.get', ['id' => $id]);
+        return redirect()->route('exercise.get', ['id' => $id]);
     }
 
-    public function getInsertContentForm($id){
-        return view('lesson.insertLesson', compact('id'));
-    }
-
-    public function insertContentForm(Request $request, $id){
+     public function insertContentForm(Request $request, $id){
         $request->validate([
             'content' => 'required'
         ]);
-        $lesson = LessonMaterial::find($id);
-        $lesson->update([
+        $exercise = ExerciseMaterial::find($id);
+        $exercise->update([
             'content' => $request->input('content')
         ]);
-        $materials = $lesson->material;
-        $lessons = $materials->lessons()->orderBy('chapter_number')->get();
-        return view('lesson.lesson', compact('lessons', 'materials'));
+        $materials = $exercise->material;
+        $exercises = $materials->exercises()->orderBy('chapter_number')->get();
+        return view('exercise.exercise', compact('exercises', 'materials'));
     }
 
-    public function searchLesson(Request $request){
-        $lessons = LessonMaterial::where('chapter', $request->name)->get();
-        if ($lessons->isEmpty()) {
+    public function searchExercise(Request $request){
+        $exercises = ExerciseMaterial::where('chapter', $request->name)->get();
+        if ($exercises->isEmpty()) {
             return back()->with('forbidden', 'Course not found.');
         }
-        $materials = $lessons->first()->material;
-        return view('lesson.lesson', compact('lessons', 'materials'));
+        $materials = $exercises->first()->material;
+        return view('exercise.exercise', compact('exercises', 'materials'));
     }
 }

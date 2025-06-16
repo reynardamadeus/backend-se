@@ -31,16 +31,16 @@
             </div>
         </div>
 
-        <x-lesson.select-class-popup />
+        <x-exercise.select-class-popup />
         <!-- Selection SD -->
-        <x-lesson.sd-select-popup />
+        <x-exercise.sd-select-popup />
         <!-- Selection SMP -->
-        <x-lesson.smp-select-popup />
+        <x-exercise.smp-select-popup />
         <!-- Selection SMA-->
-        <x-lesson.sma-select-popup />
+        <x-exercise.sma-select-popup />
 
         <!--Search-->
-        <form action="{{route('lesson.search')}}" method="post">
+        <form action="{{route('exercise.search')}}" method="post">
             @csrf
             <div class="search-container">
                 <input type="text" name="name" placeholder="Find your study materials here...">
@@ -49,22 +49,22 @@
             </div>
         </form>
     </div>
-    @if (session('forbidden'))
+     @if (session('forbidden'))
             <div class="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
                 {{ session('forbidden') }}
             </div>
-        @endif
+    @endif
 
     <div class="flex items-center justify-center bg-gray-100 flex-col"> <!--Deskripsi Belajar-->
-        <p class="text-lg font-bold text-black font-Trispace ml-7 text-[24px] mt-8 ">Mau belajar apa hari ini?</p>
+        <p class="text-lg font-bold text-black font-Trispace ml-7 text-[24px] mt-8 ">Mau latihan apa hari ini?</p>
         <div class="subjectContainer flex justify-start gap-8 text-center mt-5 bg-[#78B2C7] rounded-3xl w-3/4 min-h-80 items-start ml-7 p-10">
             @forelse ($material as $m)
-            <a href="{{route('lesson.get', $m['id'])}}" class="subjectBtn  flex flex-col items-center">
+            <a href="{{route('exercise.get', $m['id'])}}" class="subjectBtn  flex flex-col items-center">
                 <img src="{{asset('storage/'.$m['image'])}}" alt="Mathematics" class="w-8 h-8 md:w-12 md:h-12 lg:w-18 lg:h-18">
                 <p class="mt-2 text-sm font-semibold">{{$m['name']}}</p>
             </a>
             @empty
-                <p class="text-center text-gray-500 mt-4">No materials found. Please select a level</p>
+                <p class="text-center text-gray-500 mt-4">No materials found.</p>
             @endforelse
             @if(Auth::user() != null)
                 @if(Auth::user()->role == 'Admin')
@@ -76,7 +76,6 @@
             @endif
         </div>
     </div>
-
 <x-footer />
 </body>
 

@@ -20,16 +20,15 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()
-            ->with('errors', 'Registration failed. Please try again.')
-            ->with('show_signup_popup', true);
+            return redirect()->back()->withErrors($validator)->with('show_signup_popup', true);
         }
 
         User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'role' => 'User'
         ]);
 
         return redirect()->back()->with('success', 'Account created successfully!');
@@ -43,14 +42,14 @@ class UserController extends Controller
 
         if ($validator->fails()) {
             return redirect()->back()
-            ->with('errors', 'Please provide credentials.')
+            ->with('login_error', 'Please provide credentials.')
             ->with('show_login_popup', true);
         }
 
         $account  = User::where('email', $request->email)->first();
         if(empty($account) || !Hash::check($request->password, $account->password)){
             return redirect()->back()
-            ->with('errors', 'Login failed, please check your credentials')
+            ->with('login_error', 'Login failed, please check your credentials')
             ->with('show_login_popup', true);
         }
         Auth::login($account);
@@ -77,15 +76,17 @@ class UserController extends Controller
             "last_name" => "required",
             "password" => "nullable|confirmed|string|min:8"
         ]);
-        $user = Auth::user();
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name
+        ]);
+        if($request->filled('password')) {
+            $user->update([
+                'password' => Hash::make($request->password)
+            ]);
         }
-
-        $user->save();
 
         return redirect()->route('user.profile');
     }

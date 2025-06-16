@@ -1,74 +1,70 @@
-const toolbarOptions = [
-  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-  ['blockquote', 'code-block'],
-  ['link', 'image', 'video', 'formula'],
-           // custom button values
-  [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-  [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-  [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-  [{ 'direction': 'rtl' }],                         // text direction
+ document.addEventListener('DOMContentLoaded', function () {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+            ['link', 'image', 'video', 'formula'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }],
+            [{ 'direction': 'rtl' }],
+            [{ 'size': ['small', false, 'large', 'huge'] }],
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'align': [] }],
+            ['clean']
+        ];
 
-  [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        const quill = new Quill('#editor-container', {
+            theme: 'snow',
+            modules: {
+                toolbar: {
+                    container: toolbarOptions,
+                    handlers: {
+                        image: imageHandler,
+                    }
+                },
+                formula: true,
+                syntax: false
+            }
+        });
 
-  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-  [{ 'font': [] }],
-  [{ 'align': [] }],
+        function imageHandler() {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click();
 
-  ['clean']                                         // remove formatting button
-];
+        input.onchange = async () => {
+            const file = input.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('image', file);
+                formData.append('_token', csrfToken);
 
-var quill = new Quill('#editor-container', {
-  theme: 'snow',
-  formula: true,
-  modules: {
-    toolbar: {
-      container: toolbarOptions,
-      handlers: {
-        image: function () {
-          selectLocalFile('image');
-        },
-        video: function () {
-          selectLocalFile('video');
-        }
-      }
+                try {
+                    const res = await fetch(uploadUrl, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await res.json();
+                    console.log(data);
+                    if (data.url) {
+                        const range = quill.getSelection();
+                        quill.insertEmbed(range.index, 'image', data.url);
+                    } else {
+                        alert("Upload failed");
+                    }
+                } catch (err) {
+                    alert("Error uploading image.");
+                    console.error(err);
+                }
+            }
+        };
     }
-  }
-});
 
-function selectLocalFile(type) {
-  const input = document.createElement('input');
-  input.setAttribute('type', 'file');
-  input.setAttribute('accept', type === 'image' ? 'image/*' : 'video/*');
-  input.click();
-
-  input.onchange = () => {
-    const file = input.files[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('type', type);
-
-      fetch('/upload', {
-        method: 'POST',
-        headers: {
-          'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: formData
-      })
-      .then(res => res.json())
-      .then(data => {
-        const range = quill.getSelection();
-        if (type === 'image') {
-          quill.insertEmbed(range.index, 'image', data.url);
-        } else if (type === 'video') {
-          quill.insertEmbed(range.index, 'video', data.url);
-        }
-      });
-    }
-  };
-}
-
-document.querySelector('form').onsubmit = function () {
-  document.querySelector('#content').value = quill.root.innerHTML;
-};
+        document.getElementById('editor-form').addEventListener('submit', function () {
+            const html = quill.root.innerHTML;
+            document.getElementById('content_input').value = html;
+        });
+    });

@@ -45,16 +45,6 @@ function storeInput() {
 }
 
 
-
-function convertToEmbedURL(url) {
-    const videoIdMatch = url.match(/(?:\?v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/);
-    if (videoIdMatch && videoIdMatch[1]) {
-        return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
-    }
-    return "";
-}
-
-
 function addVideo(videoLink, namaBab) {
     const embedLink = convertToEmbedURL(videoLink);
     const videoContainer = document.querySelector(".videoContainer");
@@ -150,3 +140,19 @@ function handleSubmit() {
     addVideoToList(videoLink, namaBab);
     getBabName();
 }
+document.addEventListener('DOMContentLoaded', function () {
+    const chapters = document.querySelectorAll('.chapter-item');
+    const allContent = document.querySelectorAll('.lesson-content');
+
+    chapters.forEach(item => {
+        item.addEventListener('click', function () {
+            const targetId = this.getAttribute('data-target');
+
+            // Hide all content
+            allContent.forEach(div => div.classList.add('hidden'));
+
+            // Show selected content
+            document.getElementById(targetId)?.classList.remove('hidden');
+        });
+    });
+});
